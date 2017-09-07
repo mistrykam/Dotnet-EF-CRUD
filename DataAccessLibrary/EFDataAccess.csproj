@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EntityFrameworkRespository.cs" />
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="UnitOfWork.cs" />
     <Compile Include="StudentRespository.cs" />
     <Compile Include="SchoolDbContext.cs" />

@@ -69,7 +69,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="ClassDiagram1.cd" />
   </ItemGroup>
   <ItemGroup>
@@ -83,10 +85,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="SchoolDatabase.mdf">
+    <Content Include="App_Data\SchoolDatabase.mdf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="SchoolDatabase_log.ldf">
+    <Content Include="App_Data\SchoolDatabase_log.ldf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <DependentUpon>SchoolDatabase.mdf</DependentUpon>
     </Content>

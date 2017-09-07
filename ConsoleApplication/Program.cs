@@ -8,6 +8,7 @@ namespace ConsoleApplication
     {
         static void PopulateSchool()
         {
+
             Console.WriteLine("\nAdding students and teachers...\n");
 
             using (SchoolUnitOfWork schoolUnitOfWork = new SchoolUnitOfWork(new SchoolDbContext()))
@@ -72,7 +73,7 @@ namespace ConsoleApplication
         }
 
         static void Main(string[] args)
-        {
+        {            
             CleanSchool();
             PopulateSchool();
 
