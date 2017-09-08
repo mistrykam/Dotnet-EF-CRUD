@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using EFDataAccess;
 using Entities;
 
@@ -6,9 +7,20 @@ namespace ConsoleApplication
 {
     class Program
     {
+        static void CleanSchool()
+        {
+            Console.WriteLine("\nRemoving all students and teachers...\n");
+
+            using (SchoolUnitOfWork unitOfWork = new SchoolUnitOfWork(new SchoolDbContext()))
+            {
+                unitOfWork.StudentRepository.RemoveRange(unitOfWork.StudentRepository.GetAll());
+                unitOfWork.TeacherRepository.RemoveRange(unitOfWork.TeacherRepository.GetAll());
+                unitOfWork.Commit();
+            }
+        }
+
         static void PopulateSchool()
         {
-
             Console.WriteLine("\nAdding students and teachers...\n");
 
             using (SchoolUnitOfWork schoolUnitOfWork = new SchoolUnitOfWork(new SchoolDbContext()))
@@ -48,7 +60,7 @@ namespace ConsoleApplication
                 foreach (Student s in schoolUnitOfWork.StudentRepository.GetAll())
                     Console.WriteLine(s);
 
-                
+
                 var teacherWithStudents = schoolUnitOfWork.TeacherRepository.GetTeacherAndStudents(teacher2.TeacherId);
 
                 Console.WriteLine("\n{0} with students", teacher2);
@@ -60,22 +72,43 @@ namespace ConsoleApplication
             }
         }
 
-        static void CleanSchool()
+        static void UpdateTeacher()
         {
-            Console.WriteLine("\nRemoving all students and teachers...\n");
+            Console.WriteLine("Update teacher...");
 
-            using (SchoolUnitOfWork unitOfWork = new SchoolUnitOfWork(new SchoolDbContext()))
+            // Get a teacher to update
+
+            Teacher teacher;
+
+            using (SchoolUnitOfWork schoolUnitOfWork = new SchoolUnitOfWork(new SchoolDbContext()))
             {
-                unitOfWork.StudentRepository.RemoveRange(unitOfWork.StudentRepository.GetAll());
-                unitOfWork.TeacherRepository.RemoveRange(unitOfWork.TeacherRepository.GetAll());
-                unitOfWork.Commit();
+                teacher = schoolUnitOfWork.TeacherRepository.Get(12);
+
+                Console.WriteLine("\tBefore:: " + teacher);            
+            }
+
+            // change the last name
+            teacher.LastName = DateTime.Now.ToString();
+
+            using (SchoolUnitOfWork schoolUnitOfWork = new SchoolUnitOfWork(new SchoolDbContext()))
+            {
+                schoolUnitOfWork.TeacherRepository.Add(teacher);
+                schoolUnitOfWork.Commit();
+            }
+
+            using (SchoolUnitOfWork schoolUnitOfWork = new SchoolUnitOfWork(new SchoolDbContext()))
+            {
+                teacher = schoolUnitOfWork.TeacherRepository.Get(12);
+
+                Console.WriteLine("\tAfter:: " + teacher);
             }
         }
 
         static void Main(string[] args)
-        {            
+        {
             CleanSchool();
             PopulateSchool();
+            UpdateTeacher();
 
             Console.Write("Press any keys to continue...");
             Console.ReadKey();
