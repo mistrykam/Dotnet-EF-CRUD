@@ -82,7 +82,7 @@ namespace ConsoleApplication
 
             using (SchoolUnitOfWork schoolUnitOfWork = new SchoolUnitOfWork(new SchoolDbContext()))
             {
-                teacher = schoolUnitOfWork.TeacherRepository.Get(12);
+                teacher = schoolUnitOfWork.TeacherRepository.Get(p => p.LastName == "Pulling").FirstOrDefault();
 
                 Console.WriteLine("\tBefore:: " + teacher);            
             }
@@ -98,7 +98,7 @@ namespace ConsoleApplication
 
             using (SchoolUnitOfWork schoolUnitOfWork = new SchoolUnitOfWork(new SchoolDbContext()))
             {
-                teacher = schoolUnitOfWork.TeacherRepository.Get(12);
+                teacher = schoolUnitOfWork.TeacherRepository.Get(2);
 
                 Console.WriteLine("\tAfter:: " + teacher);
             }
